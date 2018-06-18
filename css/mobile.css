@@ -1,0 +1,143 @@
+
+/* JSLinux Mobile CSS */
+
+.tapinfo {
+    width: 10rem;
+    height: 7rem;
+    margin: 1rem;
+    padding-top: 4rem;
+    border: 3px solid red;
+    border-radius: 1rem;
+    text-align: center;
+    color: red;
+    display: none;
+}
+
+.tapinfo span { 
+    background-color: #000; 
+}
+
+.taparea {
+    width: 12rem;
+    height: 12rem; 
+    display: block; 
+    background-color: transparent; 
+    right: 0; 
+    top: 0; 
+    z-index: 5; 
+    position: absolute; 
+}
+
+#support {
+    border-color: blue;
+    border-width: 3px;
+}
+
+a { 
+    color: #000; 
+}
+
+.cover { 
+    display: block; 
+    width: 100%; 
+    height: 15px; 
+    z-index: 2; 
+    position: absolute; 
+    top: 0;
+    background-color: #141414;
+}
+
+
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    src: local('Source Code Pro'), url('../fonts/sourcecodepro/SourceCodePro-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Panic Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Panic Sans'), url('../fonts/panicsans/PanicSans.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Iosevka Term';
+    font-style: normal;
+    src: local('Iosevka Term'), url('../fonts/iosevka/iosevka-term-regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Iosevka Term Bold';
+    font-style: normal;
+    src: local('Iosevka Term Bold'), url('../fonts/iosevka/iosevka-term-bold.woff2') format('woff2');
+}
+
+body {
+    background-color: #141414;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: "Helvetica Neue", Helvetica, ArialMT, Arial; 
+}
+
+#holder { 
+    -webkit-user-select: auto;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border-color: #1e1e2e;
+}
+
+#consotab {
+    outline: none;
+    width: 100%;
+    padding: 0 0 0 10px;
+    font-size: 0;
+    overflow: hidden;
+}
+
+#cursor {
+    font-size: 0;
+    height: 10px;
+}
+
+.term {
+    font-family: "Panic Sans",courier,fixed,swiss,monospace,sans-serif;
+    font-size: 17px;
+    color: #f0f0f0;
+    color: #B8B8B8;
+    border-color: #141414;
+    padding-bottom: 3px;
+}
+
+@-webkit-keyframes blinker {
+    from  { opacity: 1.0; }
+    to { opacity: 0.0; }
+}
+
+
+.termReverse {
+
+    color: #000000;
+    background: #F8F8F8;
+
+    text-decoration: blink;
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 0.4s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-timing-function:ease-in-out;
+    -webkit-animation-direction: alternate;
+}
+
+#note {
+    font-size: 12px;
+}
+
+#copyright {
+    font-size: 10px;
+}
+
+#clipboard {
+    font-size: 12px;
+}
+
