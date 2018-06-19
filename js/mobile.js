@@ -39,9 +39,9 @@
     }
 
     var infoLong = `
-            This is a PC emulator written in Javascript, with a running, fully functional Linux system.
-            For full-screen mode, install the iOS Snowbunny web browser (swipe in the address bar) or the Android Fullscreen web browser. 
-            The default preset is intended for iPad with a bluetooth keyboard, but you can change the appearance of the application:
+            This is a PC emulator with a running, fully functional Linux system.
+            For full-screen mode, install the Snowbunny web browser (swipe in the address bar). 
+            You can change the appearance of the application:
 
             columns: 
             <input type="text" id="columns" value="${defaultPreset["columns"]}" size="3">,
@@ -94,7 +94,6 @@
 
             You can save your preferences by checking this <input type="checkbox" id="save" value="1"> checkbox.
 
-            The mobile version was created with the kind permission of Fabrice Bellard.
             &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="http://jm.iq.pl">Jaromaz</a>. `;
 
     var info = infoLong;
