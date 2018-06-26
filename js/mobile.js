@@ -121,7 +121,7 @@
     }
 
     if (defaultPreset["options"] == 1) {
-        info = `The user option was used. You can change the options by pressing the upper right corner of the screen. For full support for the VI editor you need a bluetooth keyboard (CTRL+h or CTRL+c will leave the VI edition mode), and after running Linux enter the command: <i>stty -F /dev/ttyS0 rows ROWS cols COLS</i>`;
+        info = `The user option was used. You can change the options by pressing the upper right corner of the screen. For full support for the VI editor you need a bluetooth keyboard (CTRL+h or CTRL+c will leave the VI edition mode), and after running Linux enter the command: <i><strong>stty -F /dev/ttyS0 rows ${defaultPreset["rows"]} cols ${defaultPreset["columns"]}</strong></i>`;
     }
 
     $( document ).ready(function() {
