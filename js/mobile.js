@@ -5,7 +5,7 @@
    --------------------------------------------------------- */
 
     var activated = false;
-    var defaultPreset = { "columns": 96, "rows": 30, "font": 1, "fontcolor": 1, "fontsize": 18, "bgcolor": 1, "spacing": 3, "ram": 1, "options": 0 };
+    var defaultPreset = { "topmargin": 3, "columns": 92, "rows": 30, "font": 1, "fontcolor": 4, "fontsize": 18, "bgcolor": 5, "spacing": 2, "ram": 1, "options": 0 };
     var cookiePreset = Cookies.getJSON("preset");
     var paramsPreset = {}; location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){paramsPreset[k]=v});
 
@@ -40,14 +40,13 @@
 
     var infoLong = `
             This is a PC emulator with a running, fully functional Linux system.
-            For full-screen mode, install the Snowbunny web browser (swipe in the address bar). 
             You can change the appearance of the application:
 
             columns: 
-            <input type="text" id="columns" value="${defaultPreset["columns"]}" size="3">,
+            <input type="text" id="columns" value="${defaultPreset['columns']}" size="3">,
 
             rows: 
-            <input type="text" id="rows" value="${defaultPreset["rows"]}" size="2">,
+            <input type="text" id="rows" value="${defaultPreset['rows']}" size="2">,
 
             font:
             <select id="font">
@@ -62,7 +61,7 @@
             </select>,
 
             font size:
-            <input type="text" id="fontsize" size="2" value="${defaultPreset["fontsize"]}">, 
+            <input type="text" id="fontsize" size="2" value="${defaultPreset['fontsize']}">, 
 
             font color:
             <select id="fontcolor">
@@ -83,7 +82,9 @@
             </select>,
 
             spacing:
-            <input type="text" id="spacing" value="${defaultPreset["spacing"]}" size="2"> px,
+            <input type="text" id="spacing" value="${defaultPreset['spacing']}" size="2"> px,
+            top margin:
+            <input type="text" id="topmargin" value="${defaultPreset['topmargin']}" size="2"> px, 
 
             RAM:
             <select id="ram">
@@ -92,13 +93,11 @@
                 <option value="3" ${fill["ram"][3]}>64</option>
             </select> Mb.
 
-            You can save your preferences by checking this <input type="checkbox" id="save" value="1"> checkbox.
-
             &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="http://jm.iq.pl">Jaromaz</a>. `;
 
     var info = infoLong;
 
-    if (window.location.hostname == 'localhost' || (appStart && !appSupport)) {
+   if (window.location.hostname == 'localhost' || (appStart && !appSupport)) {
 	info += `Please 
 	    <select id="support">
 		<option value="1">support</option>
@@ -121,18 +120,21 @@
     }
 
     if (defaultPreset["options"] == 1) {
-        info = `The user option was used. You can change the options by pressing the upper right corner of the screen. For full support for the VI editor you need a bluetooth keyboard (CTRL+h or CTRL+c will leave the VI edition mode), and after running Linux enter the command: <i><strong>stty -F /dev/ttyS0 rows ${defaultPreset["rows"]} cols ${defaultPreset["columns"]}</strong></i>`;
+        info = `The user option was used. You can change the options by pressing the upper right corner of the screen. For full support for the VI editor you need a bluetooth keyboard (CTRL+h or CTRL+c will leave the VI edition mode), and after running Linux enter the command: <i><strong>stty -F /dev/ttyS0 rows ${defaultPreset["rows"]} cols ${defaultPreset["columns"]}</strong></i> . &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="https://jm.iq.pl">Jaromaz</a>. `;
     }
 
     $( document ).ready(function() {
 
         $(".term").css("font-family", selectableOptions["font"][defaultPreset["font"]]);
         $(".term").css("font-size", (defaultPreset["fontsize"]+"px"));
+        $("#consotab").css("padding-top", (defaultPreset["topmargin"] + "px"));
+        $(".cover").css("padding-top", (defaultPreset["topmargin"] + "px"));
         $(".term").css("padding-bottom", (defaultPreset["spacing"] + "px"));
         $(".term, .tapinfo span").css("color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));
 	$(".termReverse").css("color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
         $(".term").css("border-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
-        $(".tapinfo").css("border-color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));   
+        $(".tapinfo").css("border-color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));
+        $(".tapinfo").css("margin-top", ((parseInt(defaultPreset["topmargin"], 10) + 10) + "px")); 
 	$("html, body, .cover, .tapinfo span").css("background-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
 
         if ($("#support").length > 0) {
@@ -153,10 +155,8 @@
                 presetNew[key] = $("#" + key).val();
             }
 
-	    if ($("#save").is(":checked")) {
-		Cookies.remove("preset");
-		Cookies.set("preset", presetNew, { expires: 365 });
-	    }
+	    Cookies.remove("preset");
+	    Cookies.set("preset", presetNew, { expires: 365 });
 
             for (var key in defaultPreset) {
                 if (key != "options") {
