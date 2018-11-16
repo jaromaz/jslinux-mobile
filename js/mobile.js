@@ -31,11 +31,12 @@
 	
     if (appStart == undefined) {
 	var date = new Date();
-	date.setTime(date.getTime() + 420000);
+	date.setTime(date.getTime() + 9000000);
 	Cookies.set("appstart", true, { expires: 365 });
 	Cookies.set("appsupport", true, { expires: date });
 	appStart = true;
 	appSupport = true;
+        console.log(date);
     }
 
     var infoLong = `
