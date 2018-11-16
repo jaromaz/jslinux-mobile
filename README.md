@@ -1,6 +1,6 @@
 # JSLinux Mobile – Linux for iOS
 
-A mobile version of a PC emulator written in Javascript, with a running, fully functional Linux system. The emulator can be run offline in full-screen mode on iOS and Android devices.
+<a href="https://jm.iq.pl/jslinux-mobile"><img align="right" width="280" height="497" src="https://jm.iq.pl/jslinux-mobile/js_linux_mobile_for_iOS.gif"></a>A mobile version of a PC emulator written in Javascript, with a running, fully functional Linux system. The emulator can be run offline in full-screen mode on iOS and Android devices.
 
 Apple does not allow hardware emulation in iOS – the AppStore has no such software, so I have transformed the perfect Linux emulator by Fabrice Bellard (with his kind permission) so that it works properly with iOS device keyboards and bluetooth keyboards in ordinary web browsers (a lot of Javascript tricks :) . All is available in full-screen mode simultaneously emulating modern terminals – appropriate fonts and window appearance.
 
