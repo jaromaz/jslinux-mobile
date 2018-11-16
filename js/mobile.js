@@ -5,7 +5,7 @@
    --------------------------------------------------------- */
 
     var activated = false;
-    var defaultPreset = { "topmargin": 3, "columns": 92, "rows": 30, "font": 1, "fontcolor": 4, "fontsize": 18, "bgcolor": 5, "spacing": 2, "ram": 1, "options": 0 };
+    var defaultPreset = { "topmargin": 3, "columns": 92, "rows": 30, "font": 4, "fontcolor": 3, "fontsize": 18, "bgcolor": 2, "spacing": 2, "ram": 1, "options": 0 };
     var cookiePreset = Cookies.getJSON("preset");
     var paramsPreset = {}; location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){paramsPreset[k]=v});
 
@@ -182,7 +182,9 @@
         });
     });
 
+/*
     $.alert(info, "JSLinux Mobile", function () {
         options();
     });
-
+*/
+activated = true;
