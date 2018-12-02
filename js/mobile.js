@@ -4,8 +4,16 @@
     Mobile version by Jaromaz https://jm.iq.pl/jslinux-mobile
    --------------------------------------------------------- */
 
+  var dynamicHeight = 30;
+  var dynamicWidth = 92;
+  if (Cookies.get("dynamicHeight")) {
+    dynamicHeight = Cookies.get("dynamicHeight");
+    dynamicWidth = Cookies.get("dynamicWidth");
+  }
+
     var activated = false;
-    var defaultPreset = { "topmargin": 3, "columns": 92, "rows": 30, "font": 4, "fontcolor": 3, "fontsize": 18, "bgcolor": 2, "spacing": 2, "ram": 1, "options": 0 };
+    var reloadTimer;
+var defaultPreset = { "topmargin": 3, "columns": dynamicWidth, "rows": dynamicHeight, "font": 4, "fontcolor": 3, "fontsize": 18, "bgcolor": 2, "spacing": 2, "ram": 1, "options": 0 };
     var cookiePreset = Cookies.getJSON("preset");
     var paramsPreset = {}; location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){paramsPreset[k]=v});
 
@@ -20,7 +28,7 @@
     if (! $.isEmptyObject(paramsPreset)) { defaultPreset = paramsPreset; }
 
     var fill = new Object();
-    for (var key in defaultPreset) { 
+    for (var key in defaultPreset) {
         var defaultVar = defaultPreset[key];
         fill[key] = new Array();
         fill[key][defaultVar] = "selected";
@@ -28,24 +36,23 @@
 
     var appSupport = Cookies.get("appsupport");
     var appStart = Cookies.get("appstart");
-	
     if (appStart == undefined) {
-	var date = new Date();
-	date.setTime(date.getTime() + 420000);
-	Cookies.set("appstart", true, { expires: 365 });
-	Cookies.set("appsupport", true, { expires: date });
-	appStart = true;
-	appSupport = true;
+	    var date = new Date();
+	    date.setTime(date.getTime() + 420000);
+	    Cookies.set("appstart", true, { expires: 365 });
+	    Cookies.set("appsupport", true, { expires: date });
+	    appStart = true;
+	    appSupport = true;
     }
 
     var infoLong = `
             This is a PC emulator with a running, fully functional Linux system.
             You can change the appearance of the application:
 
-            columns: 
+            columns:
             <input type="text" id="columns" value="${defaultPreset['columns']}" size="3">,
 
-            rows: 
+            rows:
             <input type="text" id="rows" value="${defaultPreset['rows']}" size="2">,
 
             font:
@@ -131,55 +138,92 @@
         $(".cover").css("padding-top", (defaultPreset["topmargin"] + "px"));
         $(".term").css("padding-bottom", (defaultPreset["spacing"] + "px"));
         $(".term, .tapinfo span").css("color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));
-	$(".termReverse").css("color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
+      	$(".termReverse").css("color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
         $(".term").css("border-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
         $(".tapinfo").css("border-color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));
-        $(".tapinfo").css("margin-top", ((parseInt(defaultPreset["topmargin"], 10) + 10) + "px")); 
-	$("html, body, .cover, .tapinfo span").css("background-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
+        $(".tapinfo").css("margin-top", ((parseInt(defaultPreset["topmargin"], 10) + 10) + "px"));
+      	$("html, body, .cover, .tapinfo span").css("background-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
+        $("body").onresize = function() {
+          console.log("resized?");
+        }
 
         if ($("#support").length > 0) {
-	    $("#support").on("change", function() {
-	        if ($(this).val() > 1) {
-		    $("#consotab").hide();
-		    location.href="https://www.paypal.me/jaromaz/"+ $(this).val() + "usd";
-	        }
-	    });
+	        $("#support").on("change", function() {
+	          if ($(this).val() > 1) {
+		          $("#consotab").hide();
+		          location.href="https://www.paypal.me/jaromaz/"+ $(this).val() + "usd";
+	          }
+	        });
         }
     });
 
+    function load_linux() {
+      var resizedHeight = Math.floor(window.innerHeight / 25)
+      Cookies.set("dynamicHeight", resizedHeight);
+      defaultPreset["rows"] = resizedHeight;
+
+      var resizedWidth = Math.floor(window.innerWidth / 10)
+      Cookies.set("dynamicWidth", resizedWidth);
+      defaultPreset["columns"] = resizedWidth;
+
+      load_binaries();
+    }
+
+    function resize_refresh() {
+      if (reloadTimer) {
+        clearTimeout(reloadTimer);
+      }
+
+      reloadTimer = setTimeout(function() {
+        var resizedHeight = Math.floor(window.innerHeight / 25)
+        Cookies.set("dynamicHeight", resizedHeight);
+        defaultPreset["rows"] = resizedHeight;
+
+        var resizedWidth = Math.floor(window.innerWidth / 10)
+        Cookies.set("dynamicWidth", resizedWidth);
+        defaultPreset["columns"] = resizedWidth;
+
+        term.handler("clear\n");
+        setTimeout(function() {
+          term.h=resizedHeight;
+          term.v=resizedWidth;
+          term.refresh();
+        }, 200)
+      }, 700);
+    }
+
     var options = function () {
-        
-        if (defaultPreset["options"] != 1) {
-            var presetNew = {};
-            for (var key in defaultPreset) { 
-                presetNew[key] = $("#" + key).val();
-            }
-
-	    Cookies.remove("preset");
-	    Cookies.set("preset", presetNew, { expires: 365 });
-
-            for (var key in defaultPreset) {
-                if (key != "options") {
-                    if (defaultPreset[key] != $("#" + key).val()) {
-                        presetNew["options"] = 1;
-                        window.location.href = "./index.html?" + $.param(presetNew);
-                    }
-                }
-            }
+      if (defaultPreset["options"] != 1) {
+        var presetNew = {};
+        for (var key in defaultPreset) {
+            presetNew[key] = $("#" + key).val();
         }
-            
-        defaultPreset["options"] = 0;
-        info = infoLong;
-        $("#holder").focus();
-        activated = true;
-        $(".tapinfo").fadeIn(2000).delay(4000).fadeOut(3000);
+
+	      Cookies.remove("preset");
+	      Cookies.set("preset", presetNew, { expires: 365 });
+
+        for (var key in defaultPreset) {
+          if (key != "options") {
+            if (defaultPreset[key] != $("#" + key).val()) {
+              presetNew["options"] = 1;
+              window.location.href = "./index.html?" + $.param(presetNew);
+            }
+          }
+        }
+      }
+
+      defaultPreset["options"] = 0;
+      info = infoLong;
+      $("#holder").focus();
+      activated = true;
+      $(".tapinfo").fadeIn(2000).delay(4000).fadeOut(3000);
     };
 
     $(".taparea").on('click', function (e) {
-	activated = false;
-        $.alert(info, "JSLinux Mobile", function () {
-            options();
-        });
+	    activated = false;
+      $.alert(info, "JSLinux Mobile", function () {
+          options();
+       });
     });
 
 /*
