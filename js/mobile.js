@@ -5,13 +5,15 @@
    --------------------------------------------------------- */
 
   var dynamicHeight = 30;
+  var dynamicWidth = 92;
   if (Cookies.get("dynamicHeight")) {
     dynamicHeight = Cookies.get("dynamicHeight");
+    dynamicWidth = Cookies.get("dynamicWidth");
   }
 
     var activated = false;
     var reloadTimer;
-var defaultPreset = { "topmargin": 3, "columns": 92, "rows": dynamicHeight, "font": 4, "fontcolor": 3, "fontsize": 18, "bgcolor": 2, "spacing": 2, "ram": 1, "options": 0 };
+var defaultPreset = { "topmargin": 3, "columns": dynamicWidth, "rows": dynamicHeight, "font": 4, "fontcolor": 3, "fontsize": 18, "bgcolor": 2, "spacing": 2, "ram": 1, "options": 0 };
     var cookiePreset = Cookies.getJSON("preset");
     var paramsPreset = {}; location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){paramsPreset[k]=v});
 
@@ -155,17 +157,38 @@ var defaultPreset = { "topmargin": 3, "columns": 92, "rows": dynamicHeight, "fon
         }
     });
 
-    function reload_binaries() {
+    function load_linux() {
+      var resizedHeight = Math.floor(window.innerHeight / 25)
+      Cookies.set("dynamicHeight", resizedHeight);
+      defaultPreset["rows"] = resizedHeight;
+
+      var resizedWidth = Math.floor(window.innerWidth / 10)
+      Cookies.set("dynamicWidth", resizedWidth);
+      defaultPreset["columns"] = resizedWidth;
+
+      load_binaries();
+    }
+
+    function resize_refresh() {
       if (reloadTimer) {
-        console.log("Cancelling old timer");
         clearTimeout(reloadTimer);
       }
 
       reloadTimer = setTimeout(function() {
-        console.log("Resizing...");
         var resizedHeight = Math.floor(window.innerHeight / 25)
         Cookies.set("dynamicHeight", resizedHeight);
-        location.reload();
+        defaultPreset["rows"] = resizedHeight;
+
+        var resizedWidth = Math.floor(window.innerWidth / 10)
+        Cookies.set("dynamicWidth", resizedWidth);
+        defaultPreset["columns"] = resizedWidth;
+
+        term.handler("clear\n");
+        setTimeout(function() {
+          term.h=resizedHeight;
+          term.v=resizedWidth;
+          term.refresh();
+        }, 200)
       }, 700);
     }
 
