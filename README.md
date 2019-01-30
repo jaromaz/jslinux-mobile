@@ -12,6 +12,6 @@ For full-screen mode open JSLinux Mobile in the Safari browser and look in its m
 This basic Linux can be used to practice programming in C, bash, support for awk and sed, create a pseudo-network (because this version of the emulator does not allow Linux to connect to the Internet), and learn the basic Linux commands thanks to the Busybox software. In the video bellow, I present the capabilities of the emulator in conjunction with iPad Mini and a bluetooth keyboard: 
 https://www.youtube.com/watch?v=9b3E2vIBZeQ
 
-More information: https://jm.iq.pl/jslinux-mobile
+For more information please visit my website: https://jm.iq.pl/jslinux-mobile
 
 Copyright (c) 2018 Jaromaz https://jm.iq.pl
