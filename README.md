@@ -15,4 +15,4 @@ This basic Linux can be used to practice programming in C, bash, support for awk
 
 For more information please visit my website: https://jm.iq.pl/jslinux-mobile
 
-Copyright (c) 2018 Jaromaz https://jm.iq.pl
+Copyright (c) 2021 Jaromaz https://jm.iq.pl
