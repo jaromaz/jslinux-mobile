@@ -1,8 +1,8 @@
 
-/* ---------------------------------------------------------
+/* ----------------------------------------------------------------
     JSLinux by Fabrice Bellard https://bellard.org
-    Mobile version by Jaromaz https://jm.iq.pl/jslinux-mobile
-   --------------------------------------------------------- */
+    JSLinux Mobile v.1.3 by Jaromaz https://jm.iq.pl/jslinux-mobile
+   ---------------------------------------------------------------- */
 
     var activated = false;
     var defaultPreset = { "topmargin": 3, "columns": 92, "rows": 30, "font": 1, "fontcolor": 4, "fontsize": 18, "bgcolor": 5, "spacing": 2, "ram": 1, "options": 0 };
@@ -30,12 +30,12 @@
     var appStart = Cookies.get("appstart");
 	
     if (appStart == undefined) {
-	var date = new Date();
-	date.setTime(date.getTime() + 9000000);
-	Cookies.set("appstart", true, { expires: 365 });
-	Cookies.set("appsupport", true, { expires: date });
-	appStart = true;
-	appSupport = true;
+	    var date = new Date();
+	    date.setTime(date.getTime() + 9000000);
+	    Cookies.set("appstart", true, { expires: 365 });
+	    Cookies.set("appsupport", true, { expires: date });
+	    appStart = true;
+	    appSupport = true;
         console.log(date);
     }
 
@@ -94,58 +94,26 @@
                 <option value="3" ${fill["ram"][3]}>64</option>
             </select> Mb.
 
-            &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="http://jm.iq.pl">Jaromaz</a>. `;
+            &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="http://jm.iq.pl/en">Jaromaz</a>. `;
 
     var info = infoLong;
 
-   if (window.location.hostname == 'localhost' || (appStart && !appSupport)) {
-	info += `Please 
-	    <select id="support">
-		<option value="1">support</option>
-		<option value="5">5 $</option>
-		<option value="10">10 $</option>
-		<option value="15">15 $</option>
-		<option value="20">20 $</option>
-		<option value="30">30 $</option>
-		<option value="50">50 $</option>
-		<option value="70">70 $</option>
-		<option value="100">100 $</option>
-		<option value="300">300 $</option>
-		<option value="500">500 $</option>
-		<option value="700">700 $</option>
-		<option value="1000">1K $</option>
-		<option value="5000">5K $</option>
-		<option value="10000">10K $</option>
-	    </select> my projects via PayPal if you like this mobile version.
-   	 `;
-    }
-
     if (defaultPreset["options"] == 1) {
-        info = `The user option was used. You can change the options by pressing the upper right corner of the screen. For full support for the VI editor you need a bluetooth keyboard (CTRL+h or CTRL+c will leave the VI edition mode), and after running Linux enter the command: <i><strong>stty -F /dev/ttyS0 rows ${defaultPreset["rows"]} cols ${defaultPreset["columns"]}</strong></i> . &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="https://jm.iq.pl">Jaromaz</a>. `;
+        info = `The user option was used. You can change the options by pressing the upper right corner of the screen. For full support for the VI editor you need a bluetooth keyboard (CTRL+h or CTRL+c will leave the VI edition mode), and after running Linux enter the command: <i><strong>stty -F /dev/ttyS0 rows ${defaultPreset["rows"]} cols ${defaultPreset["columns"]}</strong></i> . &copy; <a href="http://bellard.org">Fabrice Bellard</a> / Mobile version by <a href="https://jm.iq.pl/en">Jaromaz</a>. `;
     }
 
     $( document ).ready(function() {
-
         $(".term").css("font-family", selectableOptions["font"][defaultPreset["font"]]);
         $(".term").css("font-size", (defaultPreset["fontsize"]+"px"));
         $("#consotab").css("padding-top", (defaultPreset["topmargin"] + "px"));
         $(".cover").css("padding-top", (defaultPreset["topmargin"] + "px"));
         $(".term").css("padding-bottom", (defaultPreset["spacing"] + "px"));
         $(".term, .tapinfo span").css("color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));
-	$(".termReverse").css("color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
+	    $(".termReverse").css("color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
         $(".term").css("border-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
         $(".tapinfo").css("border-color", (selectableOptions["fontcolor"][defaultPreset["fontcolor"]]));
         $(".tapinfo").css("margin-top", ((parseInt(defaultPreset["topmargin"], 10) + 10) + "px")); 
-	$("html, body, .cover, .tapinfo span").css("background-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
-
-        if ($("#support").length > 0) {
-	    $("#support").on("change", function() {
-	        if ($(this).val() > 1) {
-		    $("#consotab").hide();
-		    location.href="https://www.paypal.me/jaromaz/"+ $(this).val() + "usd";
-	        }
-	    });
-        }
+	    $("html, body, .cover, .tapinfo span").css("background-color", (selectableOptions["bgcolor"][defaultPreset["bgcolor"]]));
     });
 
     var options = function () {
@@ -156,8 +124,8 @@
                 presetNew[key] = $("#" + key).val();
             }
 
-	    Cookies.remove("preset");
-	    Cookies.set("preset", presetNew, { expires: 365 });
+    	    Cookies.remove("preset");
+	        Cookies.set("preset", presetNew, { expires: 365 });
 
             for (var key in defaultPreset) {
                 if (key != "options") {
@@ -177,7 +145,7 @@
     };
 
     $(".taparea").on('click', function (e) {
-	activated = false;
+	    activated = false;
         $.alert(info, "JSLinux Mobile", function () {
             options();
         });
